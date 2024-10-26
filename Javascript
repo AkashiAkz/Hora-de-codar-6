@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        const agenda = [];
+const alunos = [];
+const pessoas = [];
+const funcionarios = [];
+
+// Funções para o módulo "Agenda"
+function cadastrarAgenda() {
+    if (agenda.length < 10) {
+        const nome = prompt("Digite o nome:");
+        const endereco = prompt("Digite o endereço:");
+        const telefone = prompt("Digite o telefone:");
+        agenda.push({ nome, endereco, telefone });
+        alert("Cadastro realizado com sucesso! Retornando ao menu principal.");
+    } else {
+        alert("Todos os 10 registros já foram cadastrados.");
+    }
+}
+
+function pesquisarAgenda() {
+    const nome = prompt("Digite o nome a ser pesquisado:");
+    const registro = agenda.find(p => p.nome === nome);
+    if (registro) {
+        alert(`Nome: ${registro.nome}\nEndereço: ${registro.endereco}\nTelefone: ${registro.telefone}`);
+    } else {
+        alert("Registro não encontrado.");
+    }
+}
+
+function ordenarAgenda() {
+    agenda.sort((a, b) => a.nome.localeCompare(b.nome));
+    alert("Registros ordenados por nome.");
+}
+
+function exibirAgenda() {
+    alert(agenda.map(p => `Nome: ${p.nome}, Endereço: ${p.endereco}, Telefone: ${p.telefone}`).join("\n"));
+}
+
+function menuAgenda() {
+    let opcao;
+    do {
+        opcao = parseInt(prompt("Menu Agenda:\n1 - Cadastrar\n2 - Pesquisar\n3 - Ordenar\n4 - Exibir\n5 - Voltar"));
+        switch (opcao) {
+            case 1: cadastrarAgenda(); break;
+            case 2: pesquisarAgenda(); break;
+            case 3: ordenarAgenda(); break;
+            case 4: exibirAgenda(); break;
+            case 5: break;
+            default: alert("Opção inválida!");
+        }
+    } while (opcao !== 5);
+}
+
+// Funções para o módulo "Notas dos Alunos"
+function cadastrarAlunos() {
+    if (alunos.length < 20) {
+        const nome = prompt("Digite o nome do aluno:");
+        const notas = [
+            parseFloat(prompt("Digite a nota 1:")),
+            parseFloat(prompt("Digite a nota 2:")),
+            parseFloat(prompt("Digite a nota 3:")),
+            parseFloat(prompt("Digite a nota 4:"))
+        ];
+        alunos.push({ nome, notas });
+        alunos.sort((a, b) => a.nome.localeCompare(b.nome));
+        alert("Cadastro realizado com sucesso! Retornando ao menu principal.");
+    } else {
+        alert("Todos os 20 registros já foram cadastrados.");
+    }
+}
+
+function pesquisarAluno() {
+    const nome = prompt("Digite o nome do aluno a ser pesquisado:");
+    const aluno = alunos.find(a => a.nome === nome);
+    if (aluno) {
+        const media = aluno.notas.reduce((sum, nota) => sum + nota, 0) / aluno.notas.length;
+        const status = media >= 5 ? "Aprovado" : "Reprovado";
+        alert(`Nome: ${aluno.nome}\nMédia: ${media.toFixed(2)}\nStatus: ${status}`);
+    } else {
+        alert("Aluno não encontrado.");
+    }
+}
+
+function exibirAlunos() {
+    alert(alunos.map(a => {
+        const media = a.notas.reduce((sum, nota) => sum + nota, 0) / a.notas.length;
+        const status = media >= 5 ? "Aprovado" : "Reprovado";
+        return `Nome: ${a.nome}, Média: ${media.toFixed(2)}, Status: ${status}`;
+    }).join("\n"));
+}
+
+function menuAlunos() {
+    let opcao;
+    do {
+        opcao = parseInt(prompt("Menu Alunos:\n1 - Cadastrar\n2 - Pesquisar\n3 - Exibir\n4 - Voltar"));
+        switch (opcao) {
+            case 1: cadastrarAlunos(); break;
+            case 2: pesquisarAluno(); break;
+            case 3: exibirAlunos(); break;
+            case 4: break;
+            default: alert("Opção inválida!");
+        }
+    } while (opcao !== 4);
+}
+
+// Funções para o módulo "Nome e Altura"
+function cadastrarPessoas() {
+    if (pessoas.length < 15) {
+        const nome = prompt("Digite o nome:");
+        const altura = parseFloat(prompt("Digite a altura:"));
+        pessoas.push({ nome, altura });
+        alert("Cadastro realizado com sucesso! Retornando ao menu principal.");
+    } else {
+        alert("Todos os 15 registros já foram cadastrados.");
+    }
+}
+
+function exibirPorAltura(condicao) {
+    const resultados = pessoas.filter(condicao).map(p => `Nome: ${p.nome}, Altura: ${p.altura}`);
+    alert(resultados.join("\n") || "Nenhum registro encontrado.");
+}
+
+function mediaAltura() {
+    const media = pessoas.reduce((sum, p) => sum + p.altura, 0) / pessoas.length;
+    alert(`Média das alturas: ${media.toFixed(2)}`);
+}
+
+function menuPessoas() {
+    let opcao;
+    do {
+        opcao = parseInt(prompt("Menu Pessoas:\n1 - Cadastrar\n2 - Menores ou iguais a 1.5m\n3 - Maiores que 1.5m\n4 - Entre 1.5m e 2.0m\n5 - Média de alturas\n6 - Voltar"));
+        switch (opcao) {
+            case 1: cadastrarPessoas(); break;
+            case 2: exibirPorAltura(p => p.altura <= 1.5); break;
+            case 3: exibirPorAltura(p => p.altura > 1.5); break;
+            case 4: exibirPorAltura(p => p.altura > 1.5 && p.altura < 2.0); break;
+            case 5: mediaAltura(); break;
+            case 6: break;
+            default: alert("Opção inválida!");
+        }
+    } while (opcao !== 6);
+}
+
+// Funções para o módulo "Funcionários"
+function cadastrarFuncionarios() {
+    if (funcionarios.length < 20) {
+        const matricula = prompt("Digite a matrícula:");
+        const nome = prompt("Digite o nome:");
+        const salario = parseFloat(prompt("Digite o salário:"));
+        funcionarios.push({ matricula, nome, salario });
+        funcionarios.sort((a, b) => a.matricula.localeCompare(b.matricula));
+        alert("Cadastro realizado com sucesso! Retornando ao menu principal.");
+    } else {
+        alert("Todos os 20 registros já foram cadastrados.");
+    }
+}
+
+function pesquisarFuncionario() {
+    const matricula = prompt("Digite a matrícula do funcionário:");
+    const func = funcionarios.find(f => f.matricula === matricula);
+    alert(func ? `Nome: ${func.nome}, Salário: R$ ${func.salario}` : "Funcionário não encontrado.");
+}
+
+function exibirPorSalario(condicao) {
+    const resultados = funcionarios.filter(condicao).map(f => `Matrícula: ${f.matricula}, Nome: ${f.nome}, Salário: R$ ${f.salario}`);
+    alert(resultados.join("\n") || "Nenhum registro encontrado.");
+}
+
+function menuFuncionarios() {
+    let opcao;
+    do {
+        opcao = parseInt(prompt("Menu Funcionários:\n1 - Cadastrar\n2 - Pesquisar\n3 - Salários acima de R$1000\n4 - Salários abaixo de R$1000\n5 - Salários iguais a R$1000\n6 - Voltar"));
+        switch (opcao) {
+            case 1: cadastrarFuncionarios(); break;
+            case 2: pesquisarFuncionario(); break;
+            case 3: exibirPorSalario(f => f.salario > 1000); break;
+            case 4: exibirPorSalario(f => f.salario < 1000); break;
+            case 5: exibirPorSalario(f => f.salario === 1000); break;
+            case 6: break;
+            default: alert("Opção inválida!");
+        }
+    } while (opcao !== 6);
+}
+
+// Menu principal que unifica todos os programas
+function menuPrincipal() {
+    let opcao;
+    do {
+        opcao = parseInt(prompt("Menu Principal:\n1 - Agenda\n2 - Alunos\n3 - Nome e Altura\n4 - Funcionários\n5 - Sair"));
+        switch (opcao) {
+            case 1: menuAgenda(); break;
+            case 2: menuAlunos(); break;
+            case 3: menuPessoas(); break;
+            case 4: menuFuncionarios(); break;
+            case 5: alert("Saindo..."); break;
+            default: alert("Opção inválida!");
+        }
+    } while (opcao !== 5);
+}
+
+menuPrincipal();
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
